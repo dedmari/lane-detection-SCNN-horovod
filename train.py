@@ -110,11 +110,12 @@ hvd.broadcast_optimizer_state(optimizer, root_rank=0)
 #compression = hvd.Compression.fp16
 
 # Horovod: wrap optimizer with DistributedOptimizer.
+gradient_predivide_factor = 1.0
 optimizer = hvd.DistributedOptimizer(optimizer,
                                      named_parameters=net.named_parameters(),
                                      #compression=compression,
                                      op=hvd.Average,
-                                     gradient_predivide_factor=args.gradient_predivide_factor)
+                                     gradient_predivide_factor=gradient_predivide_factor)
 
 lr_scheduler = PolyLR(optimizer, 0.9, **exp_cfg['lr_scheduler'])
 best_val_loss = 1e6
