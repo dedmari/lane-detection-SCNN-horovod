@@ -15,6 +15,9 @@ from utils.tensorboard import TensorBoard
 from utils.transforms import *
 from utils.lr_scheduler import PolyLR
 
+# Import packages for distributed computing
+import horovod.torch as hvd
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -23,6 +26,20 @@ def parse_args():
     args = parser.parse_args()
     return args
 args = parse_args()
+
+
+#------------ horovod -----------
+seed = 3
+# Initialize Horovod
+hvd.init()
+torch.manual_seed(seed)
+
+if torch.cuda.is_available():
+    # Horovod: pin GPU to local rank.
+    torch.cuda.set_device(hvd.local_rank())
+    torch.cuda.manual_seed(seed)
+
+
 
 # ------------ config ------------
 exp_dir = args.exp_dir
@@ -49,21 +66,56 @@ transform_train = Compose(Resize(resize_shape), Rotation(2), ToTensor(),
 dataset_name = exp_cfg['dataset'].pop('dataset_name')
 Dataset_Type = getattr(dataset, dataset_name)
 train_dataset = Dataset_Type(Dataset_Path[dataset_name], "train", transform_train)
-train_loader = DataLoader(train_dataset, batch_size=exp_cfg['dataset']['batch_size'], shuffle=True, collate_fn=train_dataset.collate)
+
+# Horovod: use DistributedSampler to partition the training data.
+train_sampler = torch.utils.data.distributed.DistributedSampler(
+        train_dataset, num_replicas=hvd.size(), rank=hvd.rank())
+
+train_loader = DataLoader(train_dataset, batch_size=exp_cfg['dataset']['batch_size'], shuffle=True, collate_fn=train_dataset.collate, sampler=train_sampler)
 
 # ------------ val data ------------
 transform_val_img = Resize(resize_shape)
 transform_val_x = Compose(ToTensor(), Normalize(mean=mean, std=std))
 transform_val = Compose(transform_val_img, transform_val_x)
 val_dataset = Dataset_Type(Dataset_Path[dataset_name], "val", transform_val)
-val_loader = DataLoader(val_dataset, batch_size=8, collate_fn=val_dataset.collate)
+
+# Horovod: use DistributedSampler to partition the test data.
+val_sampler = torch.utils.data.distributed.DistributedSampler(
+val_dataset, num_replicas=hvd.size(), rank=hvd.rank())
+val_loader = DataLoader(val_dataset, batch_size=8, collate_fn=val_dataset.collate, sampler=val_sampler)
 
 # ------------ preparation ------------
 net = SCNN(resize_shape, pretrained=True)
-net = net.to(device)
-net = torch.nn.DataParallel(net)
+lr_scaler = 1
+if torch.cuda.is_available():
+    net.cuda()
+    # Horovod: Scale learning rate as per number of devices
+    if hvd.nccl_built():
+        lr_scaler = hvd.local_size()
 
-optimizer = optim.SGD(net.parameters(), **exp_cfg['optim'])
+net = torch.nn.DataParallel(net)
+lr = exp_cfg['optim']['lr']
+momentum = exp_cfg['optim']['momentum']
+weight_decay = exp_cfg['optim']['weight_decay']
+nesterov = exp_cfg['optim']['nesterov']
+
+# Horovod: scale learning rate by lr_scaler.
+optimizer = optim.SGD(net.parameters(), lr=lr * lr_scaler, momentum=momentum, weight_decay=weight_decay, nesterov=nesterov)
+
+# Horovod: broadcast parameters & optimizer state.
+hvd.broadcast_parameters(net.state_dict(), root_rank=0)
+hvd.broadcast_optimizer_state(optimizer, root_rank=0)
+
+# Horovod: (optional) compression algorithm.
+#compression = hvd.Compression.fp16
+
+# Horovod: wrap optimizer with DistributedOptimizer.
+optimizer = hvd.DistributedOptimizer(optimizer,
+                                     named_parameters=net.named_parameters(),
+                                     #compression=compression,
+                                     op=hvd.Average,
+                                     gradient_predivide_factor=args.gradient_predivide_factor)
+
 lr_scheduler = PolyLR(optimizer, 0.9, **exp_cfg['lr_scheduler'])
 best_val_loss = 1e6
 
@@ -71,6 +123,10 @@ best_val_loss = 1e6
 def train(epoch):
     print("Train Epoch: {}".format(epoch))
     net.train()
+
+    # Horovod: set epoch to sampler for shuffling.
+    train_sampler.set_epoch(epoch)
+
     train_loss = 0
     train_loss_seg = 0
     train_loss_exist = 0
@@ -83,10 +139,10 @@ def train(epoch):
 
         optimizer.zero_grad()
         seg_pred, exist_pred, loss_seg, loss_exist, loss = net(img, segLabel, exist)
-        if isinstance(net, torch.nn.DataParallel):
-            loss_seg = loss_seg.sum()
-            loss_exist = loss_exist.sum()
-            loss = loss.sum()
+        #if isinstance(net, torch.nn.DataParallel):
+        #    loss_seg = loss_seg.sum()
+        #    loss_exist = loss_exist.sum()
+        #    loss = loss.sum()
         loss.backward()
         optimizer.step()
         lr_scheduler.step()
@@ -107,10 +163,11 @@ def train(epoch):
     progressbar.close()
     tensorboard.writer.flush()
 
-    if epoch % 1 == 0:
+    # Horovod: Modify code to save checkpoints only on worker 0 to prevent other workers from corrupting them.
+    if epoch % 1 == 0 and hvd.rank() == 0:
         save_dict = {
             "epoch": epoch,
-            "net": net.module.state_dict() if isinstance(net, torch.nn.DataParallel) else net.state_dict(),
+            "net": net.state_dict(),
             "optim": optimizer.state_dict(),
             "lr_scheduler": lr_scheduler.state_dict(),
             "best_val_loss": best_val_loss
@@ -120,6 +177,13 @@ def train(epoch):
         print("model is saved: {}".format(save_name))
 
     print("------------------------\n")
+
+
+# Horovod: Combining loss from multiple worker nodes
+def metric_average(val, name):
+    tensor = torch.tensor(val)
+    avg_tensor = hvd.allreduce(tensor, name=name)
+    return avg_tensor.item()
 
 
 def val(epoch):
@@ -140,68 +204,87 @@ def val(epoch):
             exist = sample['exist'].to(device)
 
             seg_pred, exist_pred, loss_seg, loss_exist, loss = net(img, segLabel, exist)
-            if isinstance(net, torch.nn.DataParallel):
-                loss_seg = loss_seg.sum()
-                loss_exist = loss_exist.sum()
-                loss = loss.sum()
+            # if isinstance(net, torch.nn.DataParallel):
+            #    loss_seg = loss_seg.sum()
+            #    loss_exist = loss_exist.sum()
+            #    loss = loss.sum()
 
             # visualize validation every 5 frame, 50 frames in all
-            gap_num = 5
-            if batch_idx%gap_num == 0 and batch_idx < 50 * gap_num:
-                origin_imgs = []
-                seg_pred = seg_pred.detach().cpu().numpy()
-                exist_pred = exist_pred.detach().cpu().numpy()
+            # gap_num = 5
+            # if batch_idx%gap_num == 0 and batch_idx < 50 * gap_num:
+            #    origin_imgs = []
+            #    seg_pred = seg_pred.detach().cpu().numpy()
+            #    exist_pred = exist_pred.detach().cpu().numpy()
 
-                for b in range(len(img)):
-                    img_name = sample['img_name'][b]
-                    img = cv2.imread(img_name)
-                    img = transform_val_img({'img': img})['img']
+            #   for b in range(len(img)):
+            #       img_name = sample['img_name'][b]
+            #       img = cv2.imread(img_name)
+            #       img = transform_val_img({'img': img})['img']
 
-                    lane_img = np.zeros_like(img)
-                    color = np.array([[255, 125, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255]], dtype='uint8')
+            #       lane_img = np.zeros_like(img)
+            #       color = np.array([[255, 125, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255]], dtype='uint8')
 
-                    coord_mask = np.argmax(seg_pred[b], axis=0)
-                    for i in range(0, 4):
-                        if exist_pred[b, i] > 0.5:
-                            lane_img[coord_mask==(i+1)] = color[i]
-                    img = cv2.addWeighted(src1=lane_img, alpha=0.8, src2=img, beta=1., gamma=0.)
-                    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-                    lane_img = cv2.cvtColor(lane_img, cv2.COLOR_BGR2RGB)
-                    cv2.putText(lane_img, "{}".format([1 if exist_pred[b, i]>0.5 else 0 for i in range(4)]), (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 255, 255), 2)
-                    origin_imgs.append(img)
-                    origin_imgs.append(lane_img)
-               #  tensorboard.image_summary("img_{}".format(batch_idx), origin_imgs, epoch)
+            #      coord_mask = np.argmax(seg_pred[b], axis=0)
+            #      for i in range(0, 4):
+            #          if exist_pred[b, i] > 0.5:
+            #              lane_img[coord_mask==(i+1)] = color[i]
+            #      img = cv2.addWeighted(src1=lane_img, alpha=0.8, src2=img, beta=1., gamma=0.)
+            #      img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            #      lane_img = cv2.cvtColor(lane_img, cv2.COLOR_BGR2RGB)
+            #      cv2.putText(lane_img, "{}".format([1 if exist_pred[b, i]>0.5 else 0 for i in range(4)]), (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 255, 255), 2)
+            #      origin_imgs.append(img)
+            #      origin_imgs.append(lane_img)
+            #  tensorboard.image_summary("img_{}".format(batch_idx), origin_imgs, epoch)
 
             val_loss += loss.item()
             val_loss_seg += loss_seg.item()
             val_loss_exist += loss_exist.item()
 
-            progressbar.set_description("batch loss: {:.3f}".format(loss.item()))
-            progressbar.update(1)
+        #   progressbar.set_description("batch loss: {:.3f}".format(loss.item()))
+        #    progressbar.update(1)
 
-    progressbar.close()
-    iter_idx = (epoch + 1) * len(train_loader)  # keep align with training process iter_idx
-    tensorboard.scalar_summary("val_loss", val_loss, iter_idx)
-    tensorboard.scalar_summary("val_loss_seg", val_loss_seg, iter_idx)
-    tensorboard.scalar_summary("val_loss_exist", val_loss_exist, iter_idx)
-    tensorboard.writer.flush()
+    # progressbar.close()
 
-    print("------------------------\n")
-    if val_loss < best_val_loss:
-        best_val_loss = val_loss
-        save_name = os.path.join(exp_dir, exp_name + '.pth')
-        copy_name = os.path.join(exp_dir, exp_name + '_best.pth')
-        shutil.copyfile(save_name, copy_name)
+    # Horovod: use test_sampler to determine the number of examples in
+    # this worker's partition.
+    val_loss /= len(val_sampler)
+    val_loss_seg /= len(val_sampler)
+    val_loss_exist /= len(val_sampler)
+
+    # Horovod: average metric values across workers.
+    test_loss = metric_average(val_loss, 'val_loss')
+    val_loss_seg = metric_average(val_loss_seg, 'val_loss_seg')
+    val_loss_exist = metric_average(val_loss_exist, 'val_loss_exist')
+
+    # Horovod: print and log output only on first rank.
+    if hvd.rank() == 0:
+
+        iter_idx = (epoch + 1) * len(train_loader)  # keep align with training process iter_idx
+        tensorboard.scalar_summary("val_loss", val_loss, iter_idx)
+        tensorboard.scalar_summary("val_loss_seg", val_loss_seg, iter_idx)
+        tensorboard.scalar_summary("val_loss_exist", val_loss_exist, iter_idx)
+        tensorboard.writer.flush()
+
+        print("------------------------\n")
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            save_name = os.path.join(exp_dir, exp_name + '.pth')
+            copy_name = os.path.join(exp_dir, exp_name + '_best.pth')
+            shutil.copyfile(save_name, copy_name)
 
 
 def main():
+
+
+
+
     global best_val_loss
     if args.resume:
         save_dict = torch.load(os.path.join(exp_dir, exp_name + '.pth'))
-        if isinstance(net, torch.nn.DataParallel):
-            net.module.load_state_dict(save_dict['net'])
-        else:
-            net.load_state_dict(save_dict['net'])
+        #if isinstance(net, torch.nn.DataParallel):
+        #    net.module.load_state_dict(save_dict['net'])
+        #else:
+        net.load_state_dict(save_dict['net'])
         optimizer.load_state_dict(save_dict['optim'])
         lr_scheduler.load_state_dict(save_dict['lr_scheduler'])
         start_epoch = save_dict['epoch'] + 1
