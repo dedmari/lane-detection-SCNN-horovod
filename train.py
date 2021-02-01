@@ -71,7 +71,7 @@ train_dataset = Dataset_Type(Dataset_Path[dataset_name], "train", transform_trai
 train_sampler = torch.utils.data.distributed.DistributedSampler(
         train_dataset, num_replicas=hvd.size(), rank=hvd.rank())
 
-train_loader = DataLoader(train_dataset, batch_size=exp_cfg['dataset']['batch_size'], shuffle=True, collate_fn=train_dataset.collate, sampler=train_sampler)
+train_loader = DataLoader(train_dataset, batch_size=exp_cfg['dataset']['batch_size'], collate_fn=train_dataset.collate, sampler=train_sampler)
 
 # ------------ val data ------------
 transform_val_img = Resize(resize_shape)
