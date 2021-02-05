@@ -111,7 +111,7 @@ python demo_test.py   -i demo/demo.jpg
                       [--visualize / -v]
 ```
 
-![](demo/demo_result.jpg "demo_result")
+![](src/demo/demo_result.jpg "demo_result")
 
 
 

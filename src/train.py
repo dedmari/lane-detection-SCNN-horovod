@@ -3,17 +3,18 @@ import json
 import os
 import shutil
 import time
+import pathlib
 
 import torch.optim as optim
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from config import *
-import dataset
-from model import SCNN
-from utils.tensorboard import TensorBoard
-from utils.transforms import *
-from utils.lr_scheduler import PolyLR
+from src.config import *
+from src import dataset
+from src.model import SCNN
+from src.utils.tensorboard import TensorBoard
+from src.utils.transforms import *
+from src.utils.lr_scheduler import PolyLR
 
 # Import packages for distributed computing
 import horovod.torch as hvd
@@ -45,14 +46,20 @@ if torch.cuda.is_available():
 exp_dir = args.exp_dir
 while exp_dir[-1]=='/':
     exp_dir = exp_dir[:-1]
-exp_name = exp_dir.split('/')[-1]
 
 with open(os.path.join(exp_dir, "cfg.json")) as f:
     exp_cfg = json.load(f)
 resize_shape = tuple(exp_cfg['dataset']['resize_shape'])
 
 device = torch.device(exp_cfg['device'])
-tensorboard = TensorBoard(exp_dir)
+
+
+# ------------ model and logs directory ------------
+model_logs_dir = exp_cfg['model_logs_dir']
+pathlib.Path(model_logs_dir).mkdir(parents=True, exist_ok=True)
+
+exp_name = exp_cfg['exp_name']
+tensorboard = TensorBoard(model_logs_dir)
 
 # ------------ train data ------------
 # # CULane mean, std
@@ -173,7 +180,7 @@ def train(epoch):
             "lr_scheduler": lr_scheduler.state_dict(),
             "best_val_loss": best_val_loss
         }
-        save_name = os.path.join(exp_dir, exp_name + '.pth')
+        save_name = os.path.join(model_logs_dir, exp_name + '.pth')
         torch.save(save_dict, save_name)
         print("model is saved: {}".format(save_name))
 
@@ -269,8 +276,8 @@ def val(epoch):
         print("------------------------\n")
         if val_loss < best_val_loss:
             best_val_loss = val_loss
-            save_name = os.path.join(exp_dir, exp_name + '.pth')
-            copy_name = os.path.join(exp_dir, exp_name + '_best.pth')
+            save_name = os.path.join(model_logs_dir, exp_name + '.pth')
+            copy_name = os.path.join(model_logs_dir, exp_name + '_best.pth')
             shutil.copyfile(save_name, copy_name)
 
 
@@ -281,7 +288,7 @@ def main():
 
     global best_val_loss
     if args.resume:
-        save_dict = torch.load(os.path.join(exp_dir, exp_name + '.pth'))
+        save_dict = torch.load(os.path.join(model_logs_dir, exp_name + '.pth'))
         #if isinstance(net, torch.nn.DataParallel):
         #    net.module.load_state_dict(save_dict['net'])
         #else:

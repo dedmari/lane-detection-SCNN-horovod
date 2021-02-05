@@ -1,6 +1,8 @@
 {
   "device": "cuda:0",
   "MAX_EPOCHES": 2,
+  "model_logs_dir": "/mnt/tusimple_model_logs/",
+  "exp_name": "exp0",
 
   "dataset": {
     "dataset_name": "Tusimple",

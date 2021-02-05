@@ -6,11 +6,11 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-import dataset
-from config import *
-from model import SCNN
-from utils.prob2lines import getLane
-from utils.transforms import *
+from src import dataset
+from src.config import *
+from src.model import SCNN
+from src.utils.prob2lines import getLane
+from src.utils.transforms import *
 
 
 def parse_args():

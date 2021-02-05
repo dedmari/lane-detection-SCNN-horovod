@@ -1,10 +1,8 @@
 import argparse
-import cv2
-import torch
 
-from model import SCNN
-from utils.prob2lines import getLane
-from utils.transforms import *
+from src.model import SCNN
+from src.utils.prob2lines import getLane
+from src.utils.transforms import *
 
 net = SCNN(input_size=(800, 288), pretrained=False)
 mean=(0.3598, 0.3653, 0.3662) # CULane mean, std

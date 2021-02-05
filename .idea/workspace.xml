@@ -2,7 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8036270-7bed-48e7-828f-37ebdb57f009" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/CULane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataset/CULane.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/Tusimple.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataset/Tusimple.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataset/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataset/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/demo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo/demo.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo/demo_result.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo/demo_result.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/demo_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/exp0/cfg.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/exp0/cfg.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/exp10/cfg.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/exp10/cfg.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/vgg_SCNN_DULR_w9/cfg.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/vgg_SCNN_DULR_w9/cfg.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/experiments/vgg_SCNN_DULR_w9/t7_to_pt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/vgg_SCNN_DULR_w9/t7_to_pt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_CULane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test_CULane.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_tusimple.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test_tusimple.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/Run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/Run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/counter.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/counter.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/hungarianGraph.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/hungarianGraph.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/lane_compare.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/lane_compare.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/spline.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/spline.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/counter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/counter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/evaluate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/evaluate.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/lane_compare.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/lane_compare.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/spline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/spline.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/counter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/counter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/evaluate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/evaluate.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/lane_compare.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/lane_compare.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/spline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/spline.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/tusimple/lane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/tusimple/lane.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/lr_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lr_scheduler.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/prob2lines/getLane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/prob2lines/getLane.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/tensorboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/tensorboard.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/transforms/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/transforms/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/transforms/data_augmentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/transforms/data_augmentation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/transforms/transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/transforms/transforms.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -11,12 +48,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/train.py">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="112" column="31" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
+            <state relative-caret-position="875">
+              <caret line="63" column="38" lean-forward="true" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -24,16 +61,75 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/experiments/exp0/cfg.json">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/build_image.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="20" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="14" selection-end-column="20" />
+            <state relative-caret-position="180">
+              <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/dataset/Tusimple.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-224">
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/experiments/exp0/cfg.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Dockerfile">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1620">
+              <caret line="108" column="29" selection-start-line="108" selection-start-column="29" selection-end-line="108" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/entrypoint.sh">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="111" lean-forward="true" selection-start-line="10" selection-start-column="111" selection-end-line="10" selection-end-column="111" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -41,6 +137,13 @@
       <find>train_dataset</find>
       <find>device</find>
       <find>lr_scheduler</find>
+      <find>arg</find>
+      <find>config</find>
+      <find>Dataset_Path</find>
+      <find>save</find>
+      <find>exp_dir</find>
+      <find>exp_name</find>
+      <find>transform_train</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -50,16 +153,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/train.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/lane-detection-SCNN-horovod.iml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
+        <option value="$PROJECT_DIR$/src/Dockerfile" />
+        <option value="$PROJECT_DIR$/Dockerfile" />
+        <option value="$PROJECT_DIR$/src/entrypoint.sh" />
+        <option value="$PROJECT_DIR$/src/config.py" />
+        <option value="$PROJECT_DIR$/src/train.py" />
+        <option value="$PROJECT_DIR$/src/experiments/exp0/cfg.json" />
+        <option value="$PROJECT_DIR$/build_image.sh" />
       </list>
     </option>
   </component>
@@ -82,13 +182,13 @@
             <path>
               <item name="lane-detection-SCNN-horovod" type="b2602c69:ProjectViewProjectNode" />
               <item name="lane-detection-SCNN-horovod" type="462c0819:PsiDirectoryNode" />
-              <item name="experiments" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="lane-detection-SCNN-horovod" type="b2602c69:ProjectViewProjectNode" />
               <item name="lane-detection-SCNN-horovod" type="462c0819:PsiDirectoryNode" />
-              <item name="experiments" type="462c0819:PsiDirectoryNode" />
-              <item name="exp0" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="dataset" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -100,6 +200,12 @@
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -130,14 +236,9 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Favorites" side_tool="true" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24954791" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Python Console" />
-      <window_info anchor="bottom" id="Terminal" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -145,26 +246,71 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Terminal" order="10" />
+      <window_info anchor="bottom" id="Python Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/experiments/exp0/cfg.json">
+    <entry file="file://$PROJECT_DIR$/src/config.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="20" lean-forward="true" selection-start-line="12" selection-start-column="4" selection-end-line="14" selection-end-column="20" />
+        <state relative-caret-position="60">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/train.py">
+    <entry file="file://$PROJECT_DIR$/src/experiments/exp0/cfg.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="112" column="31" selection-start-line="112" selection-start-column="31" selection-end-line="112" selection-end-column="31" />
+        <state relative-caret-position="420">
+          <caret line="28" column="1" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/dataset/Tusimple.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-224">
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1620">
+          <caret line="108" column="29" selection-start-line="108" selection-start-column="29" selection-end-line="108" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/entrypoint.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="111" lean-forward="true" selection-start-line="10" selection-start-column="111" selection-end-line="10" selection-end-column="111" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/train.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="875">
+          <caret line="63" column="38" lean-forward="true" selection-start-line="63" selection-start-column="38" selection-end-line="63" selection-end-column="38" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build_image.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
         </state>
       </provider>
     </entry>
