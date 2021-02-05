@@ -103,7 +103,7 @@ ADD src /src
 WORKDIR "/src"
 
 # Making entry file executable
-RUN chmod +x /entrypoint.sh
+RUN chmod +x ./entrypoint.sh
 
 # Staring distributed training using Horovod
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

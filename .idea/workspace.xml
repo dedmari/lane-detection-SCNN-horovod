@@ -2,44 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e8036270-7bed-48e7-828f-37ebdb57f009" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/CULane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataset/CULane.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/Tusimple.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataset/Tusimple.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataset/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/demo.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo/demo.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo/demo_result.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo/demo_result.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/demo_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/demo_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/exp0/cfg.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/exp0/cfg.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/exp10/cfg.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/exp10/cfg.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/vgg_SCNN_DULR_w9/cfg.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/vgg_SCNN_DULR_w9/cfg.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/vgg_SCNN_DULR_w9/t7_to_pt.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/vgg_SCNN_DULR_w9/t7_to_pt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_CULane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test_CULane.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_tusimple.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/test_tusimple.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/Run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/Run.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/counter.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/counter.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/hungarianGraph.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/hungarianGraph.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/lane_compare.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/lane_compare.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/include/spline.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/include/spline.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/counter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/counter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/evaluate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/evaluate.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/lane_compare.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/lane_compare.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src/spline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src/spline.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/counter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/counter.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/evaluate.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/evaluate.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/lane_compare.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/lane_compare.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/CULane/src_origin/spline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/CULane/src_origin/spline.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lane_evaluation/tusimple/lane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lane_evaluation/tusimple/lane.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/lr_scheduler.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/lr_scheduler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/prob2lines/getLane.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/prob2lines/getLane.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/tensorboard.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/tensorboard.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/transforms/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/transforms/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/transforms/data_augmentation.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/transforms/data_augmentation.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/transforms/transforms.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/transforms/transforms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +24,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build_image.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
@@ -104,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Dockerfile">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1620">
-              <caret line="108" column="29" selection-start-line="108" selection-start-column="29" selection-end-line="108" selection-end-column="29" />
+            <state relative-caret-position="865">
+              <caret line="108" column="14" selection-start-line="108" selection-start-column="14" selection-end-line="108" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -154,12 +117,12 @@
       <list>
         <option value="$PROJECT_DIR$/train.py" />
         <option value="$PROJECT_DIR$/src/Dockerfile" />
-        <option value="$PROJECT_DIR$/Dockerfile" />
         <option value="$PROJECT_DIR$/src/entrypoint.sh" />
         <option value="$PROJECT_DIR$/src/config.py" />
         <option value="$PROJECT_DIR$/src/train.py" />
         <option value="$PROJECT_DIR$/src/experiments/exp0/cfg.json" />
         <option value="$PROJECT_DIR$/build_image.sh" />
+        <option value="$PROJECT_DIR$/Dockerfile" />
       </list>
     </option>
   </component>
@@ -283,13 +246,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="108" column="29" selection-start-line="108" selection-start-column="29" selection-end-line="108" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/entrypoint.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -311,6 +267,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="865">
+          <caret line="108" column="14" selection-start-line="108" selection-start-column="14" selection-end-line="108" selection-end-column="14" />
         </state>
       </provider>
     </entry>
