@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.utils.transforms import CustomTransform
+from utils.transforms import CustomTransform
 
 
 class RandomFlip(CustomTransform):

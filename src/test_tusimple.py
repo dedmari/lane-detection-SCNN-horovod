@@ -6,11 +6,11 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from src import dataset
-from src.config import *
-from src.model import SCNN
-from src.utils.prob2lines import getLane
-from src.utils.transforms import *
+import dataset
+from config import *
+from model import SCNN
+from utils.prob2lines import getLane
+from utils.transforms import *
 
 
 def parse_args():
@@ -131,7 +131,7 @@ with open(os.path.join(out_path, "predict_test.json"), "w") as f:
         print(line, end="\n", file=f)
 
 # ---- evaluate ----
-from src.utils.lane_evaluation.tusimple.lane import LaneEval
+from utils.lane_evaluation.tusimple.lane import LaneEval
 
 eval_result = LaneEval.bench_one_submit(os.path.join(out_path, "predict_test.json"),
                                         os.path.join(Dataset_Path['Tusimple'], 'test_label.json'))
