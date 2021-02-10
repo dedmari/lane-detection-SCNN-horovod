@@ -12,7 +12,7 @@ from tqdm import tqdm
 from config import *
 import dataset
 from model import SCNN
-from utils.tensorboard import TensorBoard
+#from utils.tensorboard import TensorBoard
 from utils.transforms import *
 from utils.lr_scheduler import PolyLR
 
@@ -59,7 +59,7 @@ model_logs_dir = exp_cfg['model_logs_dir']
 pathlib.Path(model_logs_dir).mkdir(parents=True, exist_ok=True)
 
 exp_name = exp_cfg['exp_name']
-tensorboard = TensorBoard(model_logs_dir)
+#tensorboard = TensorBoard(model_logs_dir)
 
 # ------------ train data ------------
 # # CULane mean, std
@@ -74,11 +74,14 @@ dataset_name = exp_cfg['dataset'].pop('dataset_name')
 Dataset_Type = getattr(dataset, dataset_name)
 train_dataset = Dataset_Type(Dataset_Path[dataset_name], "train", transform_train)
 
+# Using muliple workers (cpu) for loading data
+kwargs = {'num_workers': exp_cfg['num_workers'], 'pin_memory': False} if torch.cuda.is_available() else {}
+
 # Horovod: use DistributedSampler to partition the training data.
 train_sampler = torch.utils.data.distributed.DistributedSampler(
         train_dataset, num_replicas=hvd.size(), rank=hvd.rank())
 
-train_loader = DataLoader(train_dataset, batch_size=exp_cfg['dataset']['batch_size'], collate_fn=train_dataset.collate, sampler=train_sampler)
+train_loader = DataLoader(train_dataset, batch_size=exp_cfg['dataset']['batch_size'], collate_fn=train_dataset.collate, sampler=train_sampler, **kwargs)
 
 # ------------ val data ------------
 transform_val_img = Resize(resize_shape)
@@ -163,13 +166,13 @@ def train(epoch):
         progressbar.update(1)
 
         lr = optimizer.param_groups[0]['lr']
-        tensorboard.scalar_summary(exp_name + "/train_loss", train_loss, iter_idx)
-        tensorboard.scalar_summary(exp_name + "/train_loss_seg", train_loss_seg, iter_idx)
-        tensorboard.scalar_summary(exp_name + "/train_loss_exist", train_loss_exist, iter_idx)
-        tensorboard.scalar_summary(exp_name + "/learning_rate", lr, iter_idx)
+        #tensorboard.scalar_summary(exp_name + "/train_loss", train_loss, iter_idx)
+        #tensorboard.scalar_summary(exp_name + "/train_loss_seg", train_loss_seg, iter_idx)
+        #tensorboard.scalar_summary(exp_name + "/train_loss_exist", train_loss_exist, iter_idx)
+        #tensorboard.scalar_summary(exp_name + "/learning_rate", lr, iter_idx)
 
     progressbar.close()
-    tensorboard.writer.flush()
+    #tensorboard.writer.flush()
 
     # Horovod: Modify code to save checkpoints only on worker 0 to prevent other workers from corrupting them.
     if epoch % 1 == 0 and hvd.rank() == 0:
@@ -268,10 +271,10 @@ def val(epoch):
     if hvd.rank() == 0:
 
         iter_idx = (epoch + 1) * len(train_loader)  # keep align with training process iter_idx
-        tensorboard.scalar_summary("val_loss", val_loss, iter_idx)
-        tensorboard.scalar_summary("val_loss_seg", val_loss_seg, iter_idx)
-        tensorboard.scalar_summary("val_loss_exist", val_loss_exist, iter_idx)
-        tensorboard.writer.flush()
+        #tensorboard.scalar_summary("val_loss", val_loss, iter_idx)
+        #tensorboard.scalar_summary("val_loss_seg", val_loss_seg, iter_idx)
+        #tensorboard.scalar_summary("val_loss_exist", val_loss_exist, iter_idx)
+        #tensorboard.writer.flush()
 
         print("------------------------\n")
         if val_loss < best_val_loss:
