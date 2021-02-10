@@ -75,8 +75,8 @@ Dataset_Type = getattr(dataset, dataset_name)
 train_dataset = Dataset_Type(Dataset_Path[dataset_name], "train", transform_train)
 
 # Using muliple workers (cpu) for loading data
-kwargs = {'num_workers': exp_cfg['num_workers'], 'pin_memory': True} if torch.cuda.is_available() else {}
-
+#kwargs = {'num_workers': exp_cfg['num_workers'], 'pin_memory': True} if torch.cuda.is_available() else {}
+kwargs = {}
 # Horovod: use DistributedSampler to partition the training data.
 train_sampler = torch.utils.data.distributed.DistributedSampler(
         train_dataset, num_replicas=hvd.size(), rank=hvd.rank())
