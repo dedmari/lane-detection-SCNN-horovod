@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e8036270-7bed-48e7-828f-37ebdb57f009" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/build_image.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build_image.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/experiments/exp0/cfg.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/experiments/exp0/cfg.json" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -155,8 +156,8 @@
         <option value="$PROJECT_DIR$/src/test_tusimple.py" />
         <option value="$PROJECT_DIR$/src/experiments/vgg_SCNN_DULR_w9/t7_to_pt.py" />
         <option value="$PROJECT_DIR$/src/utils/transforms/data_augmentation.py" />
-        <option value="$PROJECT_DIR$/src/experiments/exp0/cfg.json" />
         <option value="$PROJECT_DIR$/src/train.py" />
+        <option value="$PROJECT_DIR$/src/experiments/exp0/cfg.json" />
         <option value="$PROJECT_DIR$/build_image.sh" />
       </list>
     </option>
@@ -409,13 +410,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/experiments/exp0/cfg.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/train.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1964">
@@ -423,6 +417,13 @@
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/experiments/exp0/cfg.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
         </state>
       </provider>
     </entry>
