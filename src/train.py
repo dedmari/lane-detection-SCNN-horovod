@@ -9,12 +9,12 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-from src.config import *
-from src import dataset
-from src.model import SCNN
-from src.utils.tensorboard import TensorBoard
-from src.utils.transforms import *
-from src.utils.lr_scheduler import PolyLR
+from config import *
+import dataset
+from model import SCNN
+from utils.tensorboard import TensorBoard
+from utils.transforms import *
+from utils.lr_scheduler import PolyLR
 
 # Import packages for distributed computing
 import horovod.torch as hvd
