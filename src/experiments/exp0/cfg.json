@@ -3,11 +3,11 @@
   "MAX_EPOCHES": 2,
   "model_logs_dir": "/mnt/tusimple_model_logs/",
   "exp_name": "exp0",
-  "num_workers": 0 ,
+  "num_workers": 1,
 
   "dataset": {
     "dataset_name": "Tusimple",
-    "batch_size": 12,
+    "batch_size": 24,
     "resize_shape": [512, 288]
   },
 
