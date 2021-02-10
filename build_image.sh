@@ -6,7 +6,7 @@
 set -ex
 
 IMAGE=muneer7589/dist-lane-detection
-TAG=1.1
+TAG=1.2
 
 # Build image
 echo "Building image: "$IMAGE
