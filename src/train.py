@@ -3,7 +3,7 @@ import json
 import os
 import shutil
 import time
-import pathlib
+
 
 import torch.optim as optim
 from torch.utils.data import DataLoader
@@ -23,6 +23,9 @@ import horovod.torch as hvd
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--exp_dir", type=str, default="./experiments/exp0")
+    parser.add_argument("--use_workers", default=False, type=lambda x: (str(x).lower() == "true"))
+    parser.add_argument("--num_workers", type=int, default=2)
+    parser.add_argument("--batch_size", type=int, default=24)
     parser.add_argument("--resume", "-r", action="store_true")
     args = parser.parse_args()
     return args
@@ -54,6 +57,10 @@ resize_shape = tuple(exp_cfg['dataset']['resize_shape'])
 device = torch.device(exp_cfg['device'])
 
 
+batch_size = args.batch_size
+use_workers = args.use_workers
+num_workers = args.num_workers
+
 # ------------ model and logs directory ------------
 model_logs_dir = exp_cfg['model_logs_dir']
 pathlib.Path(model_logs_dir).mkdir(parents=True, exist_ok=True)
@@ -75,13 +82,18 @@ Dataset_Type = getattr(dataset, dataset_name)
 train_dataset = Dataset_Type(Dataset_Path[dataset_name], "train", transform_train)
 
 # Using muliple workers (cpu) for loading data
-#kwargs = {'num_workers': exp_cfg['num_workers'], 'pin_memory': True} if torch.cuda.is_available() else {}
+# Horovod: limit # of CPU threads to be used per worker.
+
 kwargs = {}
+if use_workers:
+    torch.set_num_threads(num_workers)
+    kwargs = {'num_workers': num_workers, 'pin_memory': True} if torch.cuda.is_available() else {}
+
 # Horovod: use DistributedSampler to partition the training data.
 train_sampler = torch.utils.data.distributed.DistributedSampler(
         train_dataset, num_replicas=hvd.size(), rank=hvd.rank())
 
-train_loader = DataLoader(train_dataset, batch_size=exp_cfg['dataset']['batch_size'], collate_fn=train_dataset.collate, sampler=train_sampler, **kwargs)
+train_loader = DataLoader(train_dataset, batch_size=batch_size, collate_fn=train_dataset.collate, sampler=train_sampler, **kwargs)
 
 # ------------ val data ------------
 transform_val_img = Resize(resize_shape)
@@ -92,7 +104,11 @@ val_dataset = Dataset_Type(Dataset_Path[dataset_name], "val", transform_val)
 # Horovod: use DistributedSampler to partition the test data.
 val_sampler = torch.utils.data.distributed.DistributedSampler(
 val_dataset, num_replicas=hvd.size(), rank=hvd.rank())
-val_loader = DataLoader(val_dataset, batch_size=8, collate_fn=val_dataset.collate, sampler=val_sampler)
+val_loader = DataLoader(val_dataset, batch_size=8, collate_fn=val_dataset.collate, sampler=val_sampler, **kwargs )
+
+
+# Horovod: print logs on the first worker.
+verbose = 1 if hvd.rank() == 0 else 0
 
 # ------------ preparation ------------
 net = SCNN(resize_shape, pretrained=True)
@@ -144,9 +160,9 @@ def train(epoch):
     progressbar = tqdm(range(len(train_loader)))
 
     for batch_idx, sample in enumerate(train_loader):
-        img = sample['img'].to(device)
-        segLabel = sample['segLabel'].to(device)
-        exist = sample['exist'].to(device)
+        img = sample['img'].cuda()
+        segLabel = sample['segLabel'].cuda()
+        exist = sample['exist'].cuda()
 
         optimizer.zero_grad()
         seg_pred, exist_pred, loss_seg, loss_exist, loss = net(img, segLabel, exist)
@@ -210,9 +226,9 @@ def val(epoch):
 
     with torch.no_grad():
         for batch_idx, sample in enumerate(val_loader):
-            img = sample['img'].to(device)
-            segLabel = sample['segLabel'].to(device)
-            exist = sample['exist'].to(device)
+            img = sample['img'].cuda()
+            segLabel = sample['segLabel'].cuda()
+            exist = sample['exist'].cuda()
 
             seg_pred, exist_pred, loss_seg, loss_exist, loss = net(img, segLabel, exist)
             # if isinstance(net, torch.nn.DataParallel):
