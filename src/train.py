@@ -183,7 +183,7 @@ def train(epoch):
     progressbar.close()
 
     # Horovod: Modify code to save checkpoints only on worker 0 to prevent other workers from corrupting them.
-    if epoch % 1 == 0 and hvd.rank() == 0:
+    if epoch % 2 == 0 and hvd.rank() == 0:
         save_dict = {
             "epoch": epoch,
             "net": net.state_dict(),
@@ -228,8 +228,8 @@ def val(epoch):
             val_loss_seg += loss_seg.item()
             val_loss_exist += loss_exist.item()
 
-        #   progressbar.set_description("batch loss: {:.3f}".format(loss.item()))
-        #    progressbar.update(1)
+        progressbar.set_description("batch loss: {:.3f}".format(loss.item()))
+        progressbar.update(1)
 
     # progressbar.close()
 
@@ -247,12 +247,6 @@ def val(epoch):
     # Horovod: print and log output only on first rank.
     if hvd.rank() == 0:
 
-        #iter_idx = (epoch + 1) * len(train_loader)  # keep align with training process iter_idx
-        #tensorboard.scalar_summary("val_loss", val_loss, iter_idx)
-        #tensorboard.scalar_summary("val_loss_seg", val_loss_seg, iter_idx)
-        #tensorboard.scalar_summary("val_loss_exist", val_loss_exist, iter_idx)
-        #tensorboard.writer.flush()
-
         print("------------------------\n")
         if val_loss < best_val_loss:
             best_val_loss = val_loss
@@ -262,9 +256,6 @@ def val(epoch):
 
 
 def main():
-
-
-
 
     global best_val_loss
     if args.resume:
@@ -283,7 +274,7 @@ def main():
     # exp_cfg['MAX_EPOCHES'] = int(np.ceil(exp_cfg['lr_scheduler']['max_iter'] / len(train_loader)))
     for epoch in range(start_epoch, exp_cfg['MAX_EPOCHES']):
         train(epoch)
-        if epoch % 1 == 0:
+        if epoch % 10 == 0:
             print("\nValidation For Experiment: ", exp_dir)
             print(time.strftime('%H:%M:%S', time.localtime()))
             val(epoch)

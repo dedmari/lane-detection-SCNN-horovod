@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e8036270-7bed-48e7-828f-37ebdb57f009" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/build_image.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build_image.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1620">
-              <caret line="108" column="62" selection-start-line="108" selection-start-column="62" selection-end-line="108" selection-end-column="62" />
+            <state relative-caret-position="459">
+              <caret line="231" column="8" selection-start-line="231" selection-start-column="8" selection-end-line="231" selection-end-column="8" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -120,8 +121,8 @@
         <option value="$PROJECT_DIR$/src/experiments/vgg_SCNN_DULR_w9/t7_to_pt.py" />
         <option value="$PROJECT_DIR$/src/utils/transforms/data_augmentation.py" />
         <option value="$PROJECT_DIR$/src/experiments/exp0/cfg.json" />
-        <option value="$PROJECT_DIR$/src/train.py" />
         <option value="$PROJECT_DIR$/src/entrypoint.sh" />
+        <option value="$PROJECT_DIR$/src/train.py" />
         <option value="$PROJECT_DIR$/build_image.sh" />
       </list>
     </option>
@@ -349,8 +350,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1620">
-          <caret line="108" column="62" selection-start-line="108" selection-start-column="62" selection-end-line="108" selection-end-column="62" />
+        <state relative-caret-position="459">
+          <caret line="231" column="8" selection-start-line="231" selection-start-column="8" selection-end-line="231" selection-end-column="8" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
