@@ -274,10 +274,10 @@ def main():
     # exp_cfg['MAX_EPOCHES'] = int(np.ceil(exp_cfg['lr_scheduler']['max_iter'] / len(train_loader)))
     for epoch in range(start_epoch, exp_cfg['MAX_EPOCHES']):
         train(epoch)
-        if epoch % 10 == 0:
-            print("\nValidation For Experiment: ", exp_dir)
-            print(time.strftime('%H:%M:%S', time.localtime()))
-            val(epoch)
+        #if epoch % 10 == 0:
+        #    print("\nValidation For Experiment: ", exp_dir)
+        #    print(time.strftime('%H:%M:%S', time.localtime()))
+        #    val(epoch)
 
 
 if __name__ == "__main__":
