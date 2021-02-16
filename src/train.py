@@ -26,6 +26,7 @@ def parse_args():
     parser.add_argument("--use_workers", default=False, type=lambda x: (str(x).lower() == "true"))
     parser.add_argument("--num_workers", type=int, default=2)
     parser.add_argument("--batch_size", type=int, default=24)
+    parser.add_argument("--val_batch_size", type=int, default=48)
     parser.add_argument("--resume", "-r", action="store_true")
     args = parser.parse_args()
     return args
@@ -58,6 +59,7 @@ device = torch.device(exp_cfg['device'])
 
 
 batch_size = args.batch_size
+val_batch_size = args.val_batch_size
 use_workers = args.use_workers
 num_workers = args.num_workers
 
@@ -104,7 +106,7 @@ val_dataset = Dataset_Type(Dataset_Path[dataset_name], "val", transform_val)
 # Horovod: use DistributedSampler to partition the test data.
 val_sampler = torch.utils.data.distributed.DistributedSampler(
 val_dataset, num_replicas=hvd.size(), rank=hvd.rank())
-val_loader = DataLoader(val_dataset, batch_size=8, collate_fn=val_dataset.collate, sampler=val_sampler, **kwargs )
+val_loader = DataLoader(val_dataset, batch_size=val_batch_size, collate_fn=val_dataset.collate, sampler=val_sampler, **kwargs )
 
 
 # Horovod: print logs on the first worker.
@@ -166,10 +168,6 @@ def train(epoch):
 
         optimizer.zero_grad()
         seg_pred, exist_pred, loss_seg, loss_exist, loss = net(img, segLabel, exist)
-        #if isinstance(net, torch.nn.DataParallel):
-        #    loss_seg = loss_seg.sum()
-        #    loss_exist = loss_exist.sum()
-        #    loss = loss.sum()
         loss.backward()
         optimizer.step()
         lr_scheduler.step()
@@ -181,14 +179,8 @@ def train(epoch):
         progressbar.set_description("batch loss: {:.3f}".format(loss.item()))
         progressbar.update(1)
 
-        lr = optimizer.param_groups[0]['lr']
-        #tensorboard.scalar_summary(exp_name + "/train_loss", train_loss, iter_idx)
-        #tensorboard.scalar_summary(exp_name + "/train_loss_seg", train_loss_seg, iter_idx)
-        #tensorboard.scalar_summary(exp_name + "/train_loss_exist", train_loss_exist, iter_idx)
-        #tensorboard.scalar_summary(exp_name + "/learning_rate", lr, iter_idx)
 
     progressbar.close()
-    #tensorboard.writer.flush()
 
     # Horovod: Modify code to save checkpoints only on worker 0 to prevent other workers from corrupting them.
     if epoch % 1 == 0 and hvd.rank() == 0:
@@ -231,37 +223,6 @@ def val(epoch):
             exist = sample['exist'].cuda()
 
             seg_pred, exist_pred, loss_seg, loss_exist, loss = net(img, segLabel, exist)
-            # if isinstance(net, torch.nn.DataParallel):
-            #    loss_seg = loss_seg.sum()
-            #    loss_exist = loss_exist.sum()
-            #    loss = loss.sum()
-
-            # visualize validation every 5 frame, 50 frames in all
-            # gap_num = 5
-            # if batch_idx%gap_num == 0 and batch_idx < 50 * gap_num:
-            #    origin_imgs = []
-            #    seg_pred = seg_pred.detach().cpu().numpy()
-            #    exist_pred = exist_pred.detach().cpu().numpy()
-
-            #   for b in range(len(img)):
-            #       img_name = sample['img_name'][b]
-            #       img = cv2.imread(img_name)
-            #       img = transform_val_img({'img': img})['img']
-
-            #       lane_img = np.zeros_like(img)
-            #       color = np.array([[255, 125, 0], [0, 255, 0], [0, 0, 255], [0, 255, 255]], dtype='uint8')
-
-            #      coord_mask = np.argmax(seg_pred[b], axis=0)
-            #      for i in range(0, 4):
-            #          if exist_pred[b, i] > 0.5:
-            #              lane_img[coord_mask==(i+1)] = color[i]
-            #      img = cv2.addWeighted(src1=lane_img, alpha=0.8, src2=img, beta=1., gamma=0.)
-            #      img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-            #      lane_img = cv2.cvtColor(lane_img, cv2.COLOR_BGR2RGB)
-            #      cv2.putText(lane_img, "{}".format([1 if exist_pred[b, i]>0.5 else 0 for i in range(4)]), (20, 20), cv2.FONT_HERSHEY_SIMPLEX, 1.1, (255, 255, 255), 2)
-            #      origin_imgs.append(img)
-            #      origin_imgs.append(lane_img)
-            #  tensorboard.image_summary("img_{}".format(batch_idx), origin_imgs, epoch)
 
             val_loss += loss.item()
             val_loss_seg += loss_seg.item()
@@ -279,14 +240,14 @@ def val(epoch):
     val_loss_exist /= len(val_sampler)
 
     # Horovod: average metric values across workers.
-    test_loss = metric_average(val_loss, 'val_loss')
-    val_loss_seg = metric_average(val_loss_seg, 'val_loss_seg')
-    val_loss_exist = metric_average(val_loss_exist, 'val_loss_exist')
+    val_loss = metric_average(val_loss, 'val_loss')
+    #val_loss_seg = metric_average(val_loss_seg, 'val_loss_seg')
+    #val_loss_exist = metric_average(val_loss_exist, 'val_loss_exist')
 
     # Horovod: print and log output only on first rank.
     if hvd.rank() == 0:
 
-        iter_idx = (epoch + 1) * len(train_loader)  # keep align with training process iter_idx
+        #iter_idx = (epoch + 1) * len(train_loader)  # keep align with training process iter_idx
         #tensorboard.scalar_summary("val_loss", val_loss, iter_idx)
         #tensorboard.scalar_summary("val_loss_seg", val_loss_seg, iter_idx)
         #tensorboard.scalar_summary("val_loss_exist", val_loss_exist, iter_idx)
