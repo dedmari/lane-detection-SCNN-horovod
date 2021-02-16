@@ -17,6 +17,7 @@ class Tusimple(Dataset):
     TRAIN_SET = ['label_data_0313.json', 'label_data_0601.json']
     VAL_SET = ['label_data_0531.json']
     TEST_SET = ['test_label.json']
+    DATASET_MULTIPLE_FACTOR = 5
 
     def __init__(self, path, image_set, transforms=None):
         super(Tusimple, self).__init__()
@@ -39,13 +40,15 @@ class Tusimple(Dataset):
         if not os.path.exists(listfile):
             raise FileNotFoundError("List file doesn't exist. Label has to be generated! ...")
 
-        with open(listfile) as f:
-            for line in f:
-                line = line.strip()
-                l = line.split(" ")
-                self.img_list.append(os.path.join(self.data_dir_path, l[0][1:]))  # l[0][1:]  get rid of the first '/' so as for os.path.join
-                self.segLabel_list.append(os.path.join(self.data_dir_path, l[1][1:]))
-                self.exist_list.append([int(x) for x in l[2:]])
+        for factor in range(0, self.DATASET_MULTIPLE_FACTOR):
+            with open(listfile) as f:
+                for line in f:
+                    line = line.strip()
+                    l = line.split(" ")
+                    self.img_list.append(os.path.join(self.data_dir_path, l[0][
+                                                                          1:]))  # l[0][1:]  get rid of the first '/' so as for os.path.join
+                    self.segLabel_list.append(os.path.join(self.data_dir_path, l[1][1:]))
+                    self.exist_list.append([int(x) for x in l[2:]])
 
     def __getitem__(self, idx):
         img = cv2.imread(self.img_list[idx])

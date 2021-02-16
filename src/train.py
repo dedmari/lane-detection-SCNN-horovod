@@ -183,7 +183,7 @@ def train(epoch):
     progressbar.close()
 
     # Horovod: Modify code to save checkpoints only on worker 0 to prevent other workers from corrupting them.
-    if epoch % 2 == 0 and hvd.rank() == 0:
+    if epoch % 5 == 0 and hvd.rank() == 0:
         save_dict = {
             "epoch": epoch,
             "net": net.state_dict(),
