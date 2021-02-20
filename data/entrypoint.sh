@@ -10,7 +10,7 @@ cd /mnt/tusimple_data/
 wget https://s3.us-east-2.amazonaws.com/benchmark-frontend/datasets/1/train_set.zip
 
 # Extract training data
-tar -xvf train_set.zip
+unzip train_set.zip -d train_set
 
 # Delete zip file
 rm -f train_set.zip
@@ -18,6 +18,9 @@ rm -f train_set.zip
 # Download test_label.json inside train_set
 cd train_set
 wget https://s3.us-east-2.amazonaws.com/benchmark-frontend/truth/1/test_label.json
+
+# List files TODO: Remove it after testing
+ls
 
 # Generate segmentation labels
 cd /workdir

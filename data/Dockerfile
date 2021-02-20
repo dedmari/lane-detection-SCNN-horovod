@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y --allow-downgrades --allow-change-held-
         libibverbs1 \
         ibverbs-providers \
         libgl1-mesa-glx \
-        libglib2.0-0
+        libglib2.0-0 \
+        unzip
 
 RUN ln -s /usr/bin/python${PYTHON_VERSION} /usr/bin/python
 
