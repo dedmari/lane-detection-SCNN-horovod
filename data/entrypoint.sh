@@ -3,10 +3,10 @@
 ## This script downloads TuSimple data and creates segmentation labels by using gen_seg_label.py ##
 
 # Create data path parent directory
-mkdir -p "/mnt/ai_data/test/tusimple_data/"
+mkdir -p "/mnt/tusimple_data/"
 
 # Download TuSimple training data
-cd /mnt/ai_data/test/tusimple_data/
+cd /mnt/tusimple_data/
 wget https://s3.us-east-2.amazonaws.com/benchmark-frontend/datasets/1/train_set.zip
 
 # Extract training data
