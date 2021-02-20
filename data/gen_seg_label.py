@@ -114,4 +114,4 @@ def _gen_label_for_json(image_set, data_dir_path):
 
 
 if __name__ == '__main__':
-    generate_label(data_dir_path="/mnt/tusimple_data/train_set")
+    generate_label(data_dir_path="/mnt/ai_data/test/tusimple_data/")

@@ -3,10 +3,10 @@
 #!/bin/bash
 
 # Create data path parent directory
-mkdir -p "/mnt/tusimple_data/"
+mkdir -p "/mnt/ai_data/test/tusimple_data/"
 
 # Download TuSimple training data
-cd /mnt/tusimple_data/
+cd /mnt/ai_data/test/tusimple_data/
 wget https://s3.us-east-2.amazonaws.com/benchmark-frontend/datasets/1/train_set.zip
 
 # Extract training data
