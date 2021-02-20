@@ -6,7 +6,7 @@
 set -ex
 
 IMAGE=muneer7589/download-tusimple
-TAG=0.1
+TAG=1.0
 
 # Build image
 echo "Building image: "$IMAGE
