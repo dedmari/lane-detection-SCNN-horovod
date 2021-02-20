@@ -1,6 +1,6 @@
-## This script downloads TuSimple data and creates segmentation labels by using gen_seg_label.py ##
+#!/bin/sh
 
-#!/bin/bash
+## This script downloads TuSimple data and creates segmentation labels by using gen_seg_label.py ##
 
 # Create data path parent directory
 mkdir -p "/mnt/ai_data/test/tusimple_data/"
