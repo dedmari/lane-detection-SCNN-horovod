@@ -39,9 +39,9 @@ RUN pip install opencv-python
 RUN pip install ujson
 
 # Copy code to docker image
-COPY ./gen_seg_label.py /workdir
-
-COPY ./entrypoint.sh /workdir
+RUN mkdir /workdir
+COPY ./gen_seg_label.py /workdir/
+COPY ./entrypoint.sh /workdir/
 
 # Change working directory
 WORKDIR /workdir
