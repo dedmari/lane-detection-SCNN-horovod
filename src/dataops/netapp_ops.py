@@ -33,6 +33,6 @@ def create_snapshot(runai_job_uuid, pvc_name, volume_snapshot_class_name="csi-sn
         plural="volumesnapshots",
         body=snapshot_resource,
     )
-    print("Snapshot " + snapshot_name + "created in namespace " + current_namespace)
+    print("Snapshot " + snapshot_name + " created in namespace " + current_namespace)
 
 

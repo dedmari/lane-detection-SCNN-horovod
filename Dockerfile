@@ -106,11 +106,7 @@ ADD src /src
 WORKDIR "/src"
 
 # Making entry file executable
-#RUN chmod +x ./entrypoint.sh
-# TODO: change back to entrypoint after testing snapshot
-RUN chmod +x ./test_snapshot_entrypoint.sh
+RUN chmod +x ./entrypoint.sh
 
 # Staring distributed training using Horovod
-# ENTRYPOINT ["./entrypoint.sh"]
-# TODO: change back to entrypoint after testing snapshot
-ENTRYPOINT ["./test_snapshot_entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

@@ -12,12 +12,14 @@ from tqdm import tqdm
 from config import *
 import dataset
 from model import SCNN
-#from utils.tensorboard import TensorBoard
 from utils.transforms import *
 from utils.lr_scheduler import PolyLR
 
 # Import packages for distributed computing
 import horovod.torch as hvd
+
+# Import NetApp dataops
+from dataops.netapp_ops import create_snapshot
 
 
 def parse_args():
@@ -26,7 +28,10 @@ def parse_args():
     parser.add_argument("--use_workers", default=False, type=lambda x: (str(x).lower() == "true"))
     parser.add_argument("--num_workers", type=int, default=2)
     parser.add_argument("--batch_size", type=int, default=24)
+    parser.add_argument("--use_val", default=False, type=lambda x: (str(x).lower() == "true"))
     parser.add_argument("--val_batch_size", type=int, default=48)
+    parser.add_argument("--enable_snapshot", default=True, type=lambda x: (str(x).lower() == "true"))
+    parser.add_argument("--pvc_name", type=str)
     parser.add_argument("--resume", "-r", action="store_true")
     args = parser.parse_args()
     return args
@@ -71,10 +76,6 @@ exp_name = exp_cfg['exp_name']
 #tensorboard = TensorBoard(model_logs_dir)
 
 # ------------ train data ------------
-# # CULane mean, std
-# mean=(0.3598, 0.3653, 0.3662)
-# std=(0.2573, 0.2663, 0.2756)
-# Imagenet mean, std
 mean=(0.485, 0.456, 0.406)
 std=(0.229, 0.224, 0.225)
 transform_train = Compose(Resize(resize_shape), Rotation(2), ToTensor(),
@@ -231,7 +232,7 @@ def val(epoch):
         progressbar.set_description("batch loss: {:.3f}".format(loss.item()))
         progressbar.update(1)
 
-    # progressbar.close()
+    progressbar.close()
 
     # Horovod: use test_sampler to determine the number of examples in
     # this worker's partition.
@@ -241,8 +242,6 @@ def val(epoch):
 
     # Horovod: average metric values across workers.
     val_loss = metric_average(val_loss, 'val_loss')
-    #val_loss_seg = metric_average(val_loss_seg, 'val_loss_seg')
-    #val_loss_exist = metric_average(val_loss_exist, 'val_loss_exist')
 
     # Horovod: print and log output only on first rank.
     if hvd.rank() == 0:
@@ -260,9 +259,6 @@ def main():
     global best_val_loss
     if args.resume:
         save_dict = torch.load(os.path.join(model_logs_dir, exp_name + '.pth'))
-        #if isinstance(net, torch.nn.DataParallel):
-        #    net.module.load_state_dict(save_dict['net'])
-        #else:
         net.load_state_dict(save_dict['net'])
         optimizer.load_state_dict(save_dict['optim'])
         lr_scheduler.load_state_dict(save_dict['lr_scheduler'])
@@ -271,13 +267,17 @@ def main():
     else:
         start_epoch = 0
 
-    # exp_cfg['MAX_EPOCHES'] = int(np.ceil(exp_cfg['lr_scheduler']['max_iter'] / len(train_loader)))
     for epoch in range(start_epoch, exp_cfg['MAX_EPOCHES']):
         train(epoch)
-        #if epoch % 10 == 0:
-        #    print("\nValidation For Experiment: ", exp_dir)
-        #    print(time.strftime('%H:%M:%S', time.localtime()))
-        #    val(epoch)
+        if args.use_val and epoch % 10 == 0:
+            print("\nValidation For Experiment: ", exp_dir)
+            print(time.strftime('%H:%M:%S', time.localtime()))
+            val(epoch)
+
+    # Creating snapshot of the PVC
+    if args.enable_snapshot:
+        runai_job_uuid = os.environ['JOB_UUID']
+        create_snapshot(runai_job_uuid, args.pvc_name)
 
 
 if __name__ == "__main__":
