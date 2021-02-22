@@ -111,4 +111,6 @@ WORKDIR "/src"
 RUN chmod +x ./test_snapshot_entrypoint.sh
 
 # Staring distributed training using Horovod
-ENTRYPOINT ["./entrypoint.sh"]
+# ENTRYPOINT ["./entrypoint.sh"]
+# TODO: change back to entrypoint after testing snapshot
+ENTRYPOINT ["./test_snapshot_entrypoint.sh"]
