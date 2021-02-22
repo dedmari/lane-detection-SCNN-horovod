@@ -19,9 +19,6 @@ rm -f train_set.zip
 cd train_set
 wget https://s3.us-east-2.amazonaws.com/benchmark-frontend/truth/1/test_label.json
 
-# List files TODO: Remove it after testing
-ls
-
 # Generate segmentation labels
 cd /workdir
 python gen_seg_label.py

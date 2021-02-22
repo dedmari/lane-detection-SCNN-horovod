@@ -88,13 +88,16 @@ RUN cat /etc/ssh/ssh_config | grep -v StrictHostKeyChecking > /etc/ssh/ssh_confi
 # Install subversion
 RUN apt-get install -y --no-install-recommends subversion
 
-# Install PiNet specific dependencies
+# Install SCNet specific dependencies
 RUN pip install visdom
 RUN pip install tqdm
 RUN pip install csaps
 RUN pip install scikit-learn
 RUN pip install ujson
 RUN pip install matplotlib
+
+# Install kubernetes client
+RUN pip install kubernetes
 
 # Add src to Docker
 ADD src /src
@@ -103,7 +106,9 @@ ADD src /src
 WORKDIR "/src"
 
 # Making entry file executable
-RUN chmod +x ./entrypoint.sh
+#RUN chmod +x ./entrypoint.sh
+# TODO: change back to entrypoint after testing snapshot
+RUN chmod +x ./test_snapshot_entrypoint.sh
 
 # Staring distributed training using Horovod
 ENTRYPOINT ["./entrypoint.sh"]
