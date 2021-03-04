@@ -1,6 +1,6 @@
 {
   "device": "cuda:0",
-  "MAX_EPOCHES": 1,
+  "MAX_EPOCHES": 10,
   "model_logs_dir": "/mnt/tusimple_model_logs/",
   "exp_name": "exp0",
   "num_workers": 0,
