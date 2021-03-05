@@ -274,10 +274,10 @@ def main():
             print(time.strftime('%H:%M:%S', time.localtime()))
             val(epoch)
 
-    # Creating snapshot of the PVC
-    if args.enable_snapshot:
-        runai_job_uuid = os.environ['JOB_UUID']
-        create_snapshot(runai_job_uuid, args.pvc_name)
+    # NetApp Snapshot with Horovod: Creating snapshot of the PVC only on first rank.
+    if hvd.rank() == 0 and args.enable_snapshot:
+        runai_job_name = os.environ['JOB_NAME']
+        create_snapshot(runai_job_name, args.pvc_name)
 
 
 if __name__ == "__main__":
