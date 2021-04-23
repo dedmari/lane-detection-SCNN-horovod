@@ -19,5 +19,5 @@ For furter deatails, please check TR ['Distributed Training in Azure – Lane De
 
 ## Acknowledgement
 
-This repos is build based on [SCNN Pytorch Implementation](<https://github.com/harryhan618/SCNN_Pytorch>).
+This repo is build based on [SCNN Pytorch Implementation](<https://github.com/harryhan618/SCNN_Pytorch>).
 
