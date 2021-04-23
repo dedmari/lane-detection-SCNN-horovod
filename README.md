@@ -1,4 +1,4 @@
-# SCNN lane detection Distributed Training
+# SCNN Lane Detection Distributed Training
 
 SCNN is a segmentation-tasked lane detection algorithm, described in ['Spatial As Deep: Spatial CNN for Traffic Scene Understanding'](https://arxiv.org/abs/1712.06080). The [official implementation](<https://github.com/XingangPan/SCNN>).
 
