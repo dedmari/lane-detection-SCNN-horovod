@@ -4,7 +4,7 @@ SCNN is a segmentation-tasked lane detection algorithm, described in ['Spatial A
 
 This repository contains a re-implementation for performing distributed training using Horovod.
 
-For furter deatails, please check TR ['Distributed Training in Azure – Lane Detection'](https://netapp.com)
+For furter deatails, please check TR ['Distributed Training in Azure – Lane Detection'](https://www.netapp.com/media/32427-tr-4896-design.pdf)
 
 <br/>
 
